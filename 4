@@ -1,0 +1,167 @@
+#include <iostream>
+using namespace std;
+
+
+class processor
+{
+protected:
+  char type[11];
+	int *tch;
+	int *cena;
+public:
+	processor();
+	processor(char*,int,int);
+	processor(int);
+	processor(const processor&);
+	~processor();
+	void Output();
+	void Input();
+	void Equals(const processor &);
+
+	int gettch() const{return *tch;}
+	void settch(int _tch) {*tch=_tch;}
+	const char* gettype()const {return type;}
+	void settype(char *a) {strcpy(type,a);}
+	int getcena() const {return *cena;}
+	void setcena(float _cena) {*cena=_cena;}
+
+};
+
+processor::processor(){
+	
+	tch=new int;
+	cena=new int;
+
+	strcpy(type,"AMD");
+	*tch=1000;
+	*cena=700;
+}
+
+processor::processor(char*a,int b,int c){
+	
+	tch=new int;
+	cena=new int;
+
+	strcpy(type,a);
+	*tch=b;
+	*cena=c;
+}
+
+processor::processor(int a){
+
+	tch=new int;
+	cena=new int;
+	
+	Input();
+}
+
+processor::processor(const processor & proc){
+	
+	tch=new int;
+	cena=new int;
+	
+	*tch=proc.gettch();
+	*cena=proc.getcena();
+	strcpy(type,proc.gettype());
+}
+
+processor::~processor()
+{
+	delete tch;
+	delete cena;
+	tch=0;
+	cena=0;	
+} 
+class AMD :public processor
+{
+
+public:
+	AMD():amd(10){};
+	~AMD(){};
+	int getamd() const {return amd;}
+	void setamd(int _amd) {amd=_amd;}
+private:
+    int amd;
+
+};
+
+class INTEL :public processor{
+public:
+	INTEL():intel(11){};
+	~INTEL(){};
+	int getintel() const {return intel;}
+	void setintel(int _intel) {intel=_intel;}
+private:
+	int intel;
+};
+
+void processor::Input(){
+int a1, b1;
+cout<<"Введите тип: ";
+cin>>type;
+cout<<endl<<"Введите тактовую частоту: ";
+cin>>a1;
+cout<<endl<<"Введите цену: ";
+cin>>b1;
+cout<<endl;
+*tch=a1;
+*cena=b1;
+}
+
+void processor::Output(){
+
+	cout<<"Тип:"<<type<<endl;
+	cout<<"Тактовая частота: " <<*tch<<endl;
+	cout<<"Цена: "<<*cena<<endl;
+}
+
+
+void processor::Equals(const processor &b){
+	int x;float z;
+	cout <<"Тип: ";
+	if (strcmp(gettype(),b.gettype())<0)
+		cout <<gettype()<<"<"<<b.gettype()<<endl;
+	else if (strcmp(gettype(),b.gettype())==0)
+		cout <<gettype()<<"="<<b.gettype()<<endl;
+	else cout <<gettype()<<">"<<b.gettype()<<endl;
+	
+	cout<<"Тактовая частота: ";
+	x=(gettch()-b.gettch());
+	if (x>0) 
+		cout<<gettype()<<" больше "<<b.gettype()<<" на "<<x<<endl;
+	else if (x<0) 
+		cout<<b.gettype()<<" больше "<<gettype()<<" на "<<(x*(-1))<<endl;
+	else cout<<"Равна = "<<gettch()<<endl;
+	
+	cout<<"Цена : ";
+	z=(getcena()-b.getcena());
+	if (z>0) 
+		cout<<gettype()<<" больше "<<b.gettype()<<" на "<<z<<endl;
+	else if (z<0) 
+		cout<<b.gettype()<<" больше "<<gettype()<<" на "<<(z*(-1))<<endl;
+	else cout<<"Равна = "<<getcena()<<endl;
+}
+int main(){
+
+setlocale(LC_ALL,".1251");
+
+INTEL i1;
+
+i1.Output();
+cout<<i1.getintel()<<" - "<<i1.getintel()<<endl;
+
+AMD a2;
+
+a2.Input();
+a2.Output();
+
+cout<<a2.gettype()<<" - "<<a2.getamd()<<endl;
+
+a2.setamd(5000);
+
+cout<<a2.gettype()<<" - "<<a2.getamd()<<endl;
+
+ cin.get();
+ cin.get();
+ return 0;
+}
